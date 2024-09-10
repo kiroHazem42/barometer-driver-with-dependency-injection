@@ -1,0 +1,5 @@
+../Drivers/device_drivers/BMP_180 driver/BMP_180.c:46:16:BMP180_read_eeprom_parmeters	24	static
+../Drivers/device_drivers/BMP_180 driver/BMP_180.c:191:22:bmp_180_init	24	static
+../Drivers/device_drivers/BMP_180 driver/BMP_180.c:209:12:bmp_180_read_temp	32	static
+../Drivers/device_drivers/BMP_180 driver/BMP_180.c:222:10:bmp_180_read_press	64	static
+../Drivers/device_drivers/BMP_180 driver/BMP_180.c:249:22:bmp_180_read_altitude	24	static

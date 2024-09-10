@@ -21,7 +21,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stdio.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -43,6 +43,22 @@
 I2C_HandleTypeDef hi2c1;
 
 /* USER CODE BEGIN PV */
+Alcd_t lcd1 = { .Data_GPIO = GPIOA, .Data_GPIO_Start_Pin = 2, .RS_GPIO = GPIOA,
+		.RS_GPIO_Pin = GPIO_PIN_6, .EN_GPIO = GPIOA, .EN_GPIO_Pin =
+		GPIO_PIN_7, };
+bmp_180_conf_t B={
+
+		.BMP180_AGhardware_interface_t.BMP180_delay = BMP180_write_parmeters,
+		.BMP180_AGhardware_interface_t.BMP180_read_parmeters =BMP180_read_parmeters ,
+		.BMP180_AGhardware_interface_t.BMP180_write_parmeters =BMP180_write_parmeters//  actualluy these only in the config struct that i need to fill as i built this struct
+
+
+
+
+
+};
+char sprintf_buffer[20];
+
 
 /* USER CODE END PV */
 
@@ -89,13 +105,28 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   /* USER CODE BEGIN 2 */
-bmp_180_init(conf, I2C_BUS)
+ bmp_180_init(&B);
+  Alcd_Init(&lcd1, 2, 0);
+  	// Alcd_PutAt(&lcd1,1,0,"HAzEM");
+  	Alcd_PutAt_n(&lcd1, 0, 0, "kiroo", Str_Len("kiroo"));
+  	Alcd_Clear(&lcd1);
+  	HAL_Delay(100);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	/*  uint8_t data [22];
+	 data[0]=0xaa;
+	 HAL_I2C_Master_Transmit(&hi2c1,0x77<<1, data, 1, 100);
+	 HAL_I2C_Master_Receive(&hi2c1,0x77<<1, data, 1, 100);*/
+
+	float alt;
+  bmp_180_read_altitude(&B, &alt);
+	  sprintf(sprintf_buffer, "%.2f", alt);
+	  		Alcd_PutAt_n(&lcd1, 0, 0,sprintf_buffer , strlen(sprintf_buffer));
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

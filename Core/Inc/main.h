@@ -31,6 +31,10 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "../../Drivers/device_drivers/HD44780_LCD/HD44780_LCD.h"
+#include "../../Drivers/device_drivers/BMP_180 driver/BMP_180.h"
+#include"BMP180 hardware interface.h"
+
 
 /* USER CODE END Includes */
 
