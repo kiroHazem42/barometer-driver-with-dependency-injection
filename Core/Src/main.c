@@ -48,10 +48,11 @@ Alcd_t lcd1 = { .Data_GPIO = GPIOA, .Data_GPIO_Start_Pin = 2, .RS_GPIO = GPIOA,
 		GPIO_PIN_7, };
 bmp_180_conf_t B={
 
-		.BMP180_AGhardware_interface_t.BMP180_delay = BMP180_write_parmeters,
-		.BMP180_AGhardware_interface_t.BMP180_read_parmeters =BMP180_read_parmeters ,
-		.BMP180_AGhardware_interface_t.BMP180_write_parmeters =BMP180_write_parmeters//  actualluy these only in the config struct that i need to fill as i built this struct
-
+		.BMP180_AGhardware_interface_t.BMP180_delay = BMP180_delay_hardware_interface,
+		.BMP180_AGhardware_interface_t.BMP180_read_parmeters =BMP180_read_parmeters_hardware_interface,
+		.BMP180_AGhardware_interface_t.BMP180_write_parmeters =BMP180_write_parmeters_hardware_interface
+		//  actualluy these only in the config struct that i need to fill as i built this struct
+        // Don't take arguments as it already done in the driver function pointers
 
 
 
@@ -88,7 +89,9 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+
+
+	HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -125,7 +128,7 @@ int main(void)
 
 	float alt;
   bmp_180_read_altitude(&B, &alt);
-	  sprintf(sprintf_buffer, "%.2f", alt);
+	  sprintf(sprintf_buffer, "alt in cm%.2f", alt);
 	  		Alcd_PutAt_n(&lcd1, 0, 0,sprintf_buffer , strlen(sprintf_buffer));
     /* USER CODE END WHILE */
 
