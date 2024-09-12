@@ -8142,7 +8142,7 @@ static uint8_t BMP180_read_eeprom_parmeters(bmp_180_conf_t *B) {
  800365c:	af00      	add	r7, sp, #0
  800365e:	6078      	str	r0, [r7, #4]
 
-	B->I2C_Buffer[0] = 0xAA;// writting register address of eeprom
+	B->I2C_Buffer[0] = 0xAA; // writting register address of eeprom
  8003660:	687b      	ldr	r3, [r7, #4]
  8003662:	22aa      	movs	r2, #170	; 0xaa
  8003664:	701a      	strb	r2, [r3, #0]
@@ -8164,7 +8164,7 @@ static uint8_t BMP180_read_eeprom_parmeters(bmp_180_conf_t *B) {
 		//return (ok == HAL_OK) ? 1 : 0;this type of chcking example used in hardware interface
 		//to return 1 or 0 that be used in BMP_180.c in the checking
 	}
-    //reading the 22 byte(8 bit) of data from register as every callibration constatnt takes two bytes as illustrated
+	//reading the 22 byte(8 bit) of data from register as every callibration constatnt takes two bytes as illustrated
 	//in conf struct
 	if (1 != B->BMP180_AGhardware_interface_t.BMP180_read_parmeters(
  800367c:	687b      	ldr	r3, [r7, #4]
@@ -8178,7 +8178,7 @@ static uint8_t BMP180_read_eeprom_parmeters(bmp_180_conf_t *B) {
  8003688:	4603      	mov	r3, r0
  800368a:	2b01      	cmp	r3, #1
  800368c:	d001      	beq.n	8003692 <BMP180_read_eeprom_parmeters+0x3a>
-		return BMP180_failed;// if writing failed return failed
+		return BMP180_failed;	// if writing failed return failed
  800368e:	2300      	movs	r3, #0
  8003690:	e022      	b.n	80036d8 <BMP180_read_eeprom_parmeters+0x80>
 	}
@@ -8252,12 +8252,12 @@ static uint8_t BMP180_read_uncompensated_measurments(bmp_180_conf_t *B) {
  80036ee:	687b      	ldr	r3, [r7, #4]
  80036f0:	222e      	movs	r2, #46	; 0x2e
  80036f2:	705a      	strb	r2, [r3, #1]
-	if (1 != B->BMP180_AGhardware_interface_t.BMP180_write_parmeters(// write
+	if (1 != B->BMP180_AGhardware_interface_t.BMP180_write_parmeters( // write
  80036f4:	687b      	ldr	r3, [r7, #4]
  80036f6:	6c5b      	ldr	r3, [r3, #68]	; 0x44
-	BMP180_SLA_ADDRESS, B->I2C_Buffer, 2)) {
+			BMP180_SLA_ADDRESS, B->I2C_Buffer, 2)) {
  80036f8:	6879      	ldr	r1, [r7, #4]
-	if (1 != B->BMP180_AGhardware_interface_t.BMP180_write_parmeters(// write
+	if (1 != B->BMP180_AGhardware_interface_t.BMP180_write_parmeters( // write
  80036fa:	2202      	movs	r2, #2
  80036fc:	2077      	movs	r0, #119	; 0x77
  80036fe:	4798      	blx	r3
@@ -8448,7 +8448,6 @@ static uint8_t BMP180_read_uncompensated_measurments(bmp_180_conf_t *B) {
  80037ea:	e01c      	b.n	8003826 <BMP180_read_uncompensated_measurments+0x146>
 	}
 
-
 	if (1 != B->BMP180_AGhardware_interface_t.BMP180_read_parmeters(
  80037ec:	687b      	ldr	r3, [r7, #4]
  80037ee:	6c9b      	ldr	r3, [r3, #72]	; 0x48
@@ -8466,7 +8465,7 @@ static uint8_t BMP180_read_uncompensated_measurments(bmp_180_conf_t *B) {
  8003800:	e011      	b.n	8003826 <BMP180_read_uncompensated_measurments+0x146>
 	}
 
-	B->UP = (B->I2C_Buffer[0] << 16 | B->I2C_Buffer[1] << 8 | B->I2C_Buffer[2])//merging MSB LSB XLSB
+	B->UP = (B->I2C_Buffer[0] << 16 | B->I2C_Buffer[1] << 8 | B->I2C_Buffer[2])	//merging MSB LSB XLSB
  8003802:	687b      	ldr	r3, [r7, #4]
  8003804:	781b      	ldrb	r3, [r3, #0]
  8003806:	041a      	lsls	r2, r3, #16
@@ -8477,12 +8476,12 @@ static uint8_t BMP180_read_uncompensated_measurments(bmp_180_conf_t *B) {
  8003810:	687a      	ldr	r2, [r7, #4]
  8003812:	7892      	ldrb	r2, [r2, #2]
  8003814:	431a      	orrs	r2, r3
-			>> (8 - B->oss_mode);//calculating UP and return it to the
+	>> (8 - B->oss_mode);		//calculating UP and return it to the
  8003816:	687b      	ldr	r3, [r7, #4]
  8003818:	7e5b      	ldrb	r3, [r3, #25]
  800381a:	f1c3 0308 	rsb	r3, r3, #8
  800381e:	411a      	asrs	r2, r3
-	B->UP = (B->I2C_Buffer[0] << 16 | B->I2C_Buffer[1] << 8 | B->I2C_Buffer[2])//merging MSB LSB XLSB
+	B->UP = (B->I2C_Buffer[0] << 16 | B->I2C_Buffer[1] << 8 | B->I2C_Buffer[2])	//merging MSB LSB XLSB
  8003820:	687b      	ldr	r3, [r7, #4]
  8003822:	635a      	str	r2, [r3, #52]	; 0x34
 	//configuration struct agin to make it global to be used between functions
@@ -9009,7 +9008,7 @@ BMP180_checkstatus_t bmp_180_read_altitude(bmp_180_conf_t *B, float *altitude) {
 
 	//calculate altitude
 
-*altitude = 44330.0f * (1.0f - powf((B->p / p0), (1.0f / 5.255)));
+	*altitude = 44330.0f * (1.0f - powf((B->p / p0), (1.0f / 5.255)));
  8003c54:	687b      	ldr	r3, [r7, #4]
  8003c56:	6b9b      	ldr	r3, [r3, #56]	; 0x38
  8003c58:	4618      	mov	r0, r3

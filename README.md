@@ -8,6 +8,8 @@ The BMP180 driver is designed for efficient handling of I2C communication, readi
 
 ## Features
 
+
+
 - **Supports all OSS modes**: Ultra-low power, Standard, High-resolution, and Ultra-high resolution modes.
 - **Pressure and Temperature Measurement**: The driver calculates compensated pressure and temperature based on raw sensor data.
 - **Altitude Calculation**: Uses pressure data to calculate altitude.
@@ -39,35 +41,35 @@ The driver follows the BMP180 sensor's workflow as per the datasheet:
 
 ## Driver API
 
-### 1. Initialization
+ **1. Initialization**
 
-```c
-BMP180_checkstatus_t bmp_180_init(bmp_180_conf_t *B);
+
+-BMP180_checkstatus_t bmp_180_init(bmp_180_conf_t *B);
 Initializes the BMP180 sensor and reads the calibration data from EEPROM.
 
-###2. Reading Temperature
+**2. Reading Temperature**
 
-uint32_t bmp_180_read_temp(bmp_180_conf_t *B);
-Reads the temperature in °C from the sensor.
+-uint32_t bmp_180_read_temp(bmp_180_conf_t *B);
+-Reads the temperature in °C from the sensor.
 
-###3. Reading Pressure
-uint32_t bmp_180_read_press(bmp_180_conf_t *B);
-Reads the pressure in Pa from the sensor.
+**3. Reading Pressure**
+-uint32_t bmp_180_read_press(bmp_180_conf_t *B);
+-Reads the pressure in Pa from the sensor.
 
-###4. Reading Altitude
+**4. Reading Altitude**
 
-BMP180_checkstatus_t bmp_180_read_altitude(bmp_180_conf_t *B, float *altitude);
-Calculates the altitude based on the current pressure reading.
+-BMP180_checkstatus_t bmp_180_read_altitude(bmp_180_conf_t *B, float *altitude);
+-Calculates the altitude based on the current pressure reading.
 
 ##Configuration Structure
-The driver uses a configuration structure bmp_180_conf_t to store calibration data, sensor settings, and function pointers to hardware-specific functions (I2C write, read, and delay):
-typedef struct {
+-The driver uses a configuration structure bmp_180_conf_t to store calibration data, sensor settings, and function pointers to hardware-specific functions (I2C write, read, and delay):
+-typedef struct {
     uint8_t I2C_Buffer[25];
     BMP180_oss_mode_t oss_mode;
     int16_t AC1, AC2, AC3, B1, B2, MB, MC, MD;
     uint16_t AC4, AC5, AC6;
     int32_t UT, UP, T, p, B5_T_P;
-    struct {
+   - struct {
         uint8_t (*BMP180_write_parmeters)(uint8_t sla, uint8_t *Data, uint8_t length);
         uint8_t (*BMP180_read_parmeters)(uint8_t sla, uint8_t *Data, uint8_t length);
         uint8_t (*BMP180_delay)(uint8_t delay);
@@ -76,12 +78,12 @@ typedef struct {
 ##Hardware Abstraction Layer (HAL)
 The driver uses function pointers to interface with the underlying hardware for I2C communication and delays. This makes the driver agnostic to the specific microcontroller used. In this project, the STM32 HAL functions are implemented for these interfaces in BMP180 hardware interface.c:
 
-###uint8_t BMP180_write_parmeters_hardware_interface(uint8_t sla, uint8_t *Data, uint8_t length);
-###uint8_t BMP180_read_parmeters_hardware_interface(uint8_t sla, uint8_t *Data, uint8_t length);
-###uint8_t BMP180_delay_hardware_interface(uint8_t delay);
+-uint8_t BMP180_write_parmeters_hardware_interface(uint8_t sla, uint8_t *Data, uint8_t length);
+-uint8_t BMP180_read_parmeters_hardware_interface(uint8_t sla, uint8_t *Data, uint8_t length);
+-uint8_t BMP180_delay_hardware_interface(uint8_t delay);
 ##Dependencies
-###STM32 HAL: The driver relies on STM32 HAL for I2C communication and delays. Ensure that the STM32CubeMX or STM32 HAL library is included in your project.
-###Math Library: The driver uses the standard math library for calculations (e.g., pow, powf).
+-STM32 HAL: The driver relies on STM32 HAL for I2C communication and delays. Ensure that the STM32CubeMX or STM32 HAL library is included in your project.
+-Math Library: The driver uses the standard math library for calculations (e.g., pow, powf).
 
 #include "BMP_180.h"
 #include "BMP180 hardware interface.h"
