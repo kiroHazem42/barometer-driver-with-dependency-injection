@@ -45,21 +45,21 @@ The driver follows the BMP180 sensor's workflow as per the datasheet:
 BMP180_checkstatus_t bmp_180_init(bmp_180_conf_t *B);
 Initializes the BMP180 sensor and reads the calibration data from EEPROM.
 
-2. Reading Temperature
+###2. Reading Temperature
 
 uint32_t bmp_180_read_temp(bmp_180_conf_t *B);
 Reads the temperature in °C from the sensor.
 
-3. Reading Pressure
+###3. Reading Pressure
 uint32_t bmp_180_read_press(bmp_180_conf_t *B);
 Reads the pressure in Pa from the sensor.
 
-4. Reading Altitude
+###4. Reading Altitude
 
 BMP180_checkstatus_t bmp_180_read_altitude(bmp_180_conf_t *B, float *altitude);
 Calculates the altitude based on the current pressure reading.
 
-Configuration Structure
+##Configuration Structure
 The driver uses a configuration structure bmp_180_conf_t to store calibration data, sensor settings, and function pointers to hardware-specific functions (I2C write, read, and delay):
 typedef struct {
     uint8_t I2C_Buffer[25];
@@ -73,15 +73,15 @@ typedef struct {
         uint8_t (*BMP180_delay)(uint8_t delay);
     } BMP180_AGhardware_interface_t;
 } bmp_180_conf_t;
-Hardware Abstraction Layer (HAL)
+##Hardware Abstraction Layer (HAL)
 The driver uses function pointers to interface with the underlying hardware for I2C communication and delays. This makes the driver agnostic to the specific microcontroller used. In this project, the STM32 HAL functions are implemented for these interfaces in BMP180 hardware interface.c:
 
-uint8_t BMP180_write_parmeters_hardware_interface(uint8_t sla, uint8_t *Data, uint8_t length);
-uint8_t BMP180_read_parmeters_hardware_interface(uint8_t sla, uint8_t *Data, uint8_t length);
-uint8_t BMP180_delay_hardware_interface(uint8_t delay);
-Dependencies
-STM32 HAL: The driver relies on STM32 HAL for I2C communication and delays. Ensure that the STM32CubeMX or STM32 HAL library is included in your project.
-Math Library: The driver uses the standard math library for calculations (e.g., pow, powf).
+###uint8_t BMP180_write_parmeters_hardware_interface(uint8_t sla, uint8_t *Data, uint8_t length);
+###uint8_t BMP180_read_parmeters_hardware_interface(uint8_t sla, uint8_t *Data, uint8_t length);
+###uint8_t BMP180_delay_hardware_interface(uint8_t delay);
+##Dependencies
+###STM32 HAL: The driver relies on STM32 HAL for I2C communication and delays. Ensure that the STM32CubeMX or STM32 HAL library is included in your project.
+###Math Library: The driver uses the standard math library for calculations (e.g., pow, powf).
 
 #include "BMP_180.h"
 #include "BMP180 hardware interface.h"
@@ -89,7 +89,7 @@ Math Library: The driver uses the standard math library for calculations (e.g., 
 // Create configuration object
 bmp_180_conf_t BMP180;
 
-int main(void) {
+##int main(void) {
     // Initialize HAL and hardware interface
     HAL_Init();
     // Initialize BMP180 with the configuration struct
@@ -101,12 +101,10 @@ int main(void) {
     float altitude;
     bmp_180_read_altitude(&BMP180, &altitude);
 }
-License
+##License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-Author
-Kirollos Hazem - September 2024
-vbnet
-Copy code
+##Author
+###Kirollos Hazem - September 2024
 
 This `README.md` provides a professional overview of your BMP180 driver project, including how the driver 
